@@ -8,10 +8,6 @@ CREATE TABLE IF NOT EXISTS users (
                  ),
   created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
--- ---------------------------------------------------------------------
--- VEHICLES
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS vehicles (
   id                   SERIAL PRIMARY KEY,
   registration_number  VARCHAR(50) UNIQUE NOT NULL,
@@ -28,9 +24,6 @@ CREATE TABLE IF NOT EXISTS vehicles (
   updated_at           TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- ---------------------------------------------------------------------
--- DRIVERS
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS drivers (
   id                    SERIAL PRIMARY KEY,
   name                  VARCHAR(150) NOT NULL,
@@ -45,10 +38,6 @@ CREATE TABLE IF NOT EXISTS drivers (
   created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
--- ---------------------------------------------------------------------
--- TRIPS
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS trips (
   id                SERIAL PRIMARY KEY,
   source            VARCHAR(150) NOT NULL,
@@ -72,10 +61,7 @@ CREATE INDEX IF NOT EXISTS idx_trips_status ON trips(status);
 CREATE INDEX IF NOT EXISTS idx_trips_vehicle ON trips(vehicle_id);
 CREATE INDEX IF NOT EXISTS idx_trips_driver ON trips(driver_id);
 
--- ---------------------------------------------------------------------
--- MAINTENANCE LOGS
--- ---------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS maintenance_logs (
+
   id           SERIAL PRIMARY KEY,
   vehicle_id   INTEGER NOT NULL REFERENCES vehicles(id) ON DELETE CASCADE,
   description  TEXT NOT NULL,
@@ -102,10 +88,7 @@ CREATE TABLE IF NOT EXISTS fuel_logs (
 
 CREATE INDEX IF NOT EXISTS idx_fuel_vehicle ON fuel_logs(vehicle_id);
 
--- ---------------------------------------------------------------------
--- EXPENSES  (tolls, misc, etc. — maintenance/fuel tracked separately)
--- ---------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS expenses (
+
   id            SERIAL PRIMARY KEY,
   vehicle_id    INTEGER REFERENCES vehicles(id) ON DELETE CASCADE,
   type          VARCHAR(50) NOT NULL,   -- Toll, Parking, Fine, Other...
@@ -117,9 +100,7 @@ CREATE TABLE IF NOT EXISTS expenses (
 
 CREATE INDEX IF NOT EXISTS idx_expenses_vehicle ON expenses(vehicle_id);
 
--- ---------------------------------------------------------------------
--- Auto-update `updated_at` on vehicles / drivers
--- ---------------------------------------------------------------------
+
 CREATE OR REPLACE FUNCTION set_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
