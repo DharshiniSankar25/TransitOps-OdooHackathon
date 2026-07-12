@@ -164,5 +164,5 @@ Developed for the Odoo Hackathon
 
 Team Members
 
-Dharshini Sankar
-Team Member
+Dharshini S
+Ganga Shri A R
