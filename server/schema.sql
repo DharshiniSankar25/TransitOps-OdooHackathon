@@ -1,12 +1,3 @@
--- =====================================================================
--- TransitOps — PostgreSQL schema
--- Run this once against your already-created "TransitOps" database:
---   psql -U postgres -d TransitOps -f schema.sql
--- =====================================================================
-
--- ---------------------------------------------------------------------
--- USERS  (authentication + RBAC)
--- ---------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS users (
   id             SERIAL PRIMARY KEY,
   name           VARCHAR(150) NOT NULL,
